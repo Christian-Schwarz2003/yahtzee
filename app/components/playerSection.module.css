@@ -1,0 +1,7 @@
+.block {
+  background-color: red;
+}
+.blockWrapper {
+  display: flex;
+  flex-direction: row;
+}

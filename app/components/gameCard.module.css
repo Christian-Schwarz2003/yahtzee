@@ -1,0 +1,16 @@
+.gameCard {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(20, 1fr); 
+  width:fit-content
+}
+.gameCard > span {
+    border:1px solid;
+padding: 5px 15px;
+justify-content: center;
+display: flex;
+}
+.gameCard > span > input{
+width: 90%;
+}
+
