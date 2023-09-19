@@ -13,4 +13,13 @@ display: flex;
 .gameCard > span > input{
 width: 90%;
 }
-
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+}
+.container {
+  width: fit-content;
+  margin:0 auto;
+}
