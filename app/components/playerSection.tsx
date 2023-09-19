@@ -458,6 +458,7 @@ export default function PlayerSection() {
             ref={blockYahtzeeRef}
             onChange={handleBlock}
             className={styles.block}
+            disabled={yahtzeeRef.current?.checked || false}
           ></input>
         </span>
       </span>
