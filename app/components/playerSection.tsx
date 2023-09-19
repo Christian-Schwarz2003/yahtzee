@@ -1,6 +1,6 @@
 import {readBuilderProgram} from "typescript";
 import styles from "./playerSection.module.css";
-import React, {Fragment, useRef, useState} from "react";
+import React, {Fragment, useMemo, useRef, useState} from "react";
 
 interface Errors {
   ones: boolean;
@@ -68,7 +68,6 @@ export default function PlayerSection() {
   const blockSmallStraightRef = useRef<HTMLInputElement>(null);
   const blockLargeStraightRef = useRef<HTMLInputElement>(null);
   const blockYahtzeeRef = useRef<HTMLInputElement>(null);
-
 
   const [blocked, setBlocked] = useState<Blocked>({
     fullHouse: false,
@@ -276,7 +275,22 @@ export default function PlayerSection() {
       isNaN(value) || value < 0 || value > 5 * index || value % index !== 0
     );
   };
-
+  const hasErrorsUpper = useMemo(() => {
+    return (
+      errors.ones ||
+      errors.twos ||
+      errors.threes ||
+      errors.fours ||
+      errors.fives ||
+      errors.sixes
+    );
+  }, [errors]);
+  const hasErrorsLower = useMemo(() => {
+    return errors.ThreeOfAKind || errors.FourOfAKind || errors.Chance;
+  }, [errors]);
+  const hasErrors = useMemo(() => {
+    return hasErrorsUpper || hasErrorsLower;
+  }, [hasErrorsUpper, hasErrorsLower]);
   return (
     <Fragment>
       <span>
@@ -354,9 +368,13 @@ export default function PlayerSection() {
           style={errors.sixes ? {borderColor: "red"} : {}}
         ></input>
       </span>
-      <span>{calculatedValues.totalUpper}</span>
-      <span>{calculatedValues.bonus ? "Y" : "N"}</span>
-      <span>{calculatedValues.totalUpperWithBonus}</span>
+      <span>{hasErrorsUpper ? "Error" : calculatedValues.totalUpper}</span>
+      <span>
+        {hasErrorsUpper ? "Error" : calculatedValues.bonus ? "Y" : "N"}
+      </span>
+      <span>
+        {hasErrorsUpper ? "Error" : calculatedValues.totalUpperWithBonus}
+      </span>
       <div></div>
       <span>
         <input
@@ -474,8 +492,8 @@ export default function PlayerSection() {
         ></input>
       </span>
 
-      <span>{calculatedValues.totalLower}</span>
-      <span>{calculatedValues.grandTotal}</span>
+      <span>{hasErrorsLower ? "Error" : calculatedValues.totalLower}</span>
+      <span>{hasErrors ? "Error" : calculatedValues.grandTotal}</span>
     </Fragment>
   );
 }
